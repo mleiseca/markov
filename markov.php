@@ -28,47 +28,68 @@
     OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function generate_markov_table($text, $look_forward = 4) {
-    $table = array();
+function generate_markov_table($texts) {
+  $table = array();
 
-    // now walk through the text and make the index table
-    for ($i = 0; $i < strlen($text); $i++) {
-        $char = substr($text, $i, $look_forward);
-        if (!isset($table[$char])) $table[$char] = array();
+#split based on word
+#do something reasonable with punctuation
+#do something better with line breaks
+
+  foreach($texts as $text) {
+    $text = nl2br($text, false);
+    $text = str_replace('”','"' , $text);
+    $text = str_replace('“','"' , $text);
+    $text = str_replace('’','\'' , $text);
+    $punctuation = array('<br>', '.', ',', ':', ';', '"', "!", "?");
+    foreach($punctuation as $p) {
+      $text = str_replace($p, " $p ", $text);
+    }
+    $brokenup_text = preg_split('/\s+/', $text);
+
+    $last_word = "START";
+    $count = 0;
+    foreach($brokenup_text as $word) {
+      if ($last_word == "<br>" && $word == "<br>") {
+        
+      } elseif (isset($table[$last_word][$word])) {
+        $table[$last_word][$word]++;
+      } else {
+        $table[$last_word][$word] = 1;
+      }
+      $last_word = $word;
     }
 
-    // walk the array again and count the numbers
-    for ($i = 0; $i < (strlen($text) - $look_forward); $i++) {
-        $char_index = substr($text, $i, $look_forward);
-        $char_count = substr($text, $i+$look_forward, $look_forward);
-
-        if (isset($table[$char_index][$char_count])) {
-            $table[$char_index][$char_count]++;
-        } else {
-            $table[$char_index][$char_count] = 1;
-        }
-    }
-#echo '<pre>'; print_r($table); echo '</pre>';
+    $table[$last_word]["END"] = 1;
+  }
+#$foo = print_r($table, true);
+#syslog(LOG_INFO, $foo);
     return $table;
 }
 
-function generate_markov_text($length, $table, $look_forward = 4) {
-    // get first character
-    $char = array_rand($table);
-    $o = $char;
+function generate_markov_text($length, $table) {
+  $punctuation = array('<br>', '.', ',', ':', ';', '"', "!", "?");
+  $word = "START";
+  $o = "";
+  for ($i = 0; $i < $length; $i++) {
+    $new_word = return_weighted_char($table[$word]);
 
-    for ($i = 0; $i < ($length / $look_forward); $i++) {
-        $newchar = return_weighted_char($table[$char]);
+    if ($new_word) {
+      if ($new_word == "END") {
+        return $o;
+      }
+      $word = $new_word;
+      if (!in_array($new_word, $punctuation)) {
+        $o .= ' ';
+      }
+      $o .= $new_word;
+    } else {
+      #syslog(LOG_INFO, "rand for: " . $word);
+      #syslog(LOG_INFO, "--> " . print_r($table[$word], true));
 
-        if ($newchar) {
-            $char = $newchar;
-            $o .= $newchar;
-        } else {
-            $char = array_rand($table);
-        }
+      $word = array_rand($table);
     }
-
-    return $o;
+  }
+  return $o;
 }
 
 

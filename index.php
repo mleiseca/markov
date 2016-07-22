@@ -8,23 +8,21 @@
 require 'markov.php';
 
 function process() {
-    $order  = $_GET['order'] ?: 8;
-    $length = $_GET['length'] ?: 2000;
+  $order  = $_GET['order'] ?: 8;
+  $length = $_GET['length'] ?: 2000;
+  $texts = array();
+  $dh = opendir('./republican_transcripts');
+  while($file = readdir($dh)) {
+    array_push($texts, file_get_contents('./republican_transcripts/' . $file));
+  }
+  closedir($dh);
 
-    $dh = opendir('./republican_transcripts');
-    while($file = readdir($dh)) {
-        $text .= file_get_contents('./republican_transcripts/' . $file);
-    }
-    closedir($dh);
-
-    if (empty($text)) {
-        throw new Exception("No text given");
-    }
+  if (empty($texts)) {
+    throw new Exception("No text given");
+  }
 	
-    #return htmlentities($text);
-    $markov_table = generate_markov_table($text, $order);
-    $markov = generate_markov_text($length, $markov_table, $order);
-    return htmlentities($markov);
+  $markov_table = generate_markov_table($texts);
+  return generate_markov_text($length, $markov_table);
 }
 
 try {
@@ -47,22 +45,11 @@ try {
         <p class="error"><strong><?= $error; ?></strong></p>
     <?php endif; ?>
 
-    <?php if ($markov): ?>
        <div id="speech"> 
-         <?= $markov; ?>
-       </div>
-    <?php endif; ?>
-
-    <h2>Tweak your speech</h2>
-    <form method="get" action="" name="markov">
-       <br />
-        <label for="order">Order</label>
-        <input type="text" name="order" value="10" />
-        <label for="length">Text size of output</label>
-        <input type="text" name="length" value="2500" />
-        <br />
-        <input type="submit" name="submit" value="GO" />
-    </form>
+    <?php 
+      echo($markov);
+     ?>
+    </div>
 </div> <!-- /wrapper -->
 </body>
 </html>
