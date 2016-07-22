@@ -54,7 +54,7 @@ if (isset($_POST['submit'])) {
 	    <?= $markov; ?>
     <?php endif; ?>
 
-    <h2>Input text</h2>
+    <h2>Tweak your speech</h2>
     <form method="post" action="" name="markov">
        <br />
         <label for="order">Order</label>
