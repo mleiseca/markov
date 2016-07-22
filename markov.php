@@ -48,7 +48,7 @@ function generate_markov_table($text, $look_forward = 4) {
             $table[$char_index][$char_count] = 1;
         }
     }
-
+#echo '<pre>'; print_r($table); echo '</pre>';
     return $table;
 }
 
