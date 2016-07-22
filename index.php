@@ -7,9 +7,9 @@
 
 require 'markov.php';
 
-function process_post() {
-    $order  = $_POST['order'];
-    $length = $_POST['length'];
+function process() {
+    $order  = $_GET['order'] ?: 8;
+    $length = $_GET['length'] ?: 2000;
 
     $dh = opendir('./republican_transcripts');
     while($file = readdir($dh)) {
@@ -27,12 +27,10 @@ function process_post() {
     return htmlentities($markov);
 }
 
-if (isset($_POST['submit'])) {
-    try {
-        $markov = process_post();
-    } catch (Exception $e) {
-        $error = $e->getMessage();
-    }
+try {
+    $markov = process();
+} catch (Exception $e) {
+    $error = $e->getMessage();
 }
 ?>
 <!doctype html>
@@ -40,7 +38,7 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="utf-8" />
     <title>PHP Markov chain text generator by Hay Kranen</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
 <div id="wrapper">
@@ -50,12 +48,13 @@ if (isset($_POST['submit'])) {
     <?php endif; ?>
 
     <?php if ($markov): ?>
-        <h2>Output text</h2>
-	    <?= $markov; ?>
+       <div id="speech"> 
+         <?= $markov; ?>
+       </div>
     <?php endif; ?>
 
     <h2>Tweak your speech</h2>
-    <form method="post" action="" name="markov">
+    <form method="get" action="" name="markov">
        <br />
         <label for="order">Order</label>
         <input type="text" name="order" value="10" />
