@@ -8,8 +8,10 @@
 require 'markov.php';
 
 function process() {
-  $order  = $_GET['order'] ?: 8;
-  $length = $_GET['length'] ?: 600;
+  #$order  = $_GET['order'] ?: 8;
+  #$length = $_GET['length'] ?: 600;
+  $order = 8;
+  $length = 400;
   $texts = array();
   $dh = opendir('./republican_transcripts');
   while($file = readdir($dh)) {
@@ -49,6 +51,14 @@ try {
     <?php 
       echo($markov);
      ?>
+    <div class="bottom-tools">
+      <div class="tool-item">
+        <a id="generate-new-speech" href="/" class="generate-button">Generate New Speech</a>
+      </div>
+    </div>
+    </div>
+    <div id="footer">
+      <a href="/about">About The Republican Convention 2016 Speech Generator</a>
     </div>
 </div> <!-- /wrapper -->
 </body>

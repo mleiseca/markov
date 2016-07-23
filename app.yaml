@@ -5,5 +5,8 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
 
+- url: /about
+  script: about.php
+
 - url: /.*
   script: index.php
