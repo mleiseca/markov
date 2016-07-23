@@ -28,7 +28,10 @@
     OTHER DEALINGS IN THE SOFTWARE.
 */
 
+$punctuation = array('<br>', '.', ',', ':', ';', '"', "!", "?");
+
 function generate_markov_table($texts) {
+  global $punctuation;
   $table = array();
 
 #split based on word
@@ -40,21 +43,42 @@ function generate_markov_table($texts) {
     $text = str_replace('”','"' , $text);
     $text = str_replace('“','"' , $text);
     $text = str_replace('’','\'' , $text);
-    $punctuation = array('<br>', '.', ',', ':', ';', '"', "!", "?");
+    $text = str_replace('Mr.','Mr' , $text);
+    $text = str_replace('U.S.','US' , $text);
+    $text = str_replace('…',' … ' , $text);
+    #$text = str_replace('—',' — ' , $text);
     foreach($punctuation as $p) {
       $text = str_replace($p, " $p ", $text);
     }
     $brokenup_text = preg_split('/\s+/', $text);
 
     $last_word = "START";
-    $count = 0;
+    $previous_words = array('START', '');
     foreach($brokenup_text as $word) {
-      if ($last_word == "<br>" && $word == "<br>") {
+      #if ($last_word == "<br>" && $word == "<br>") {
         
-      } elseif (isset($table[$last_word][$word])) {
-        $table[$last_word][$word]++;
+      #} elseif (isset($table[$last_word][$word])) {
+      #  $table[$last_word][$word]++;
+      #} else {
+      #  $table[$last_word][$word] = 1;
+      #}
+
+      $previous_group = trim(join(' ', $previous_words)); 
+      if ($previous_group == "<br>" && $word == "<br>") {
+
+      } elseif (isset($table[$previous_group][$word])) {
+        #syslog(LOG_INFO, "Adding '$previous_group' -> '$word'");
+        $table[$previous_group][$word]++;
       } else {
-        $table[$last_word][$word] = 1;
+        #syslog(LOG_INFO, "Adding '$previous_group' -> '$word'");
+        $table[$previous_group][$word] = 1;
+      }
+ 
+      if(in_array($word, $punctuation)) {
+        $previous_words = array($word, '');
+      } else {
+        array_push($previous_words, $word);
+        array_shift($previous_words);
       }
       $last_word = $word;
     }
@@ -67,11 +91,16 @@ function generate_markov_table($texts) {
 }
 
 function generate_markov_text($length, $table) {
-  $punctuation = array('<br>', '.', ',', ':', ';', '"', "!", "?");
+  global $punctuation;
   $word = "START";
   $o = "";
+
+  $previous_words = array('START', '');
   for ($i = 0; $i < $length; $i++) {
-    $new_word = return_weighted_char($table[$word]);
+    $previous_group = trim(join(' ', $previous_words));
+    $new_word = return_weighted_char($table[$previous_group]);
+    #syslog(LOG_INFO, join(' ', $previous_group . "--> " .print_r($new_word,true) . " " . print_r($table[$previous_group], true));
+    #$new_word = return_weighted_char($table[$word]);
 
     if ($new_word) {
       if ($new_word == "END") {
@@ -88,6 +117,13 @@ function generate_markov_text($length, $table) {
 
       $word = array_rand($table);
     }
+    if(in_array($word, $punctuation)) {
+      $previous_words = array($word, '');
+    } else {
+      array_push($previous_words, $word);
+      array_shift($previous_words);
+    }
+ 
   }
   return $o;
 }

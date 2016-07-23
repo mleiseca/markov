@@ -35,7 +35,7 @@ try {
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>PHP Markov chain text generator by Hay Kranen</title>
+    <title>Republican Convention 2016 Speech Generator</title>
     <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
