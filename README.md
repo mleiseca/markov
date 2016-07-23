@@ -1,9 +1,9 @@
 PHP Markov chain text generator for the Republican Convention 2016
 ===============================
 This is a Markov chain text generator that uses a two word context as the state for generating text. It started as a fork from Hay Kranen's project (see links below) and then I made a few tweaks:
-* My interests was on words instead of letters, so I changed the focus of parsing to words. This also required for things like punctuation.
+* My interests was on words instead of letters, so I changed the focus of parsing to words. This also required some text cleanup for things like punctuation.
 * The transcripts or planned remarks for the convention are in the republican_transcripts directory.
-* Prettied up the site, including html/css and tweaking text generation so that it would make something a little more web-friendly. 
+* Prettied up the site. On one side that was html/css. On the other side, there was tweaking text generation so that it would make something a little more web-friendly. 
 
 More info
 ---------
