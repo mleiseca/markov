@@ -9,7 +9,7 @@ require 'markov.php';
 
 function process() {
   $order  = $_GET['order'] ?: 8;
-  $length = $_GET['length'] ?: 2000;
+  $length = $_GET['length'] ?: 600;
   $texts = array();
   $dh = opendir('./republican_transcripts');
   while($file = readdir($dh)) {

@@ -42,6 +42,7 @@ function generate_markov_table($texts) {
     $text = nl2br($text, false);
     $text = str_replace('”','"' , $text);
     $text = str_replace('“','"' , $text);
+    $text = str_replace('"','' , $text);
     $text = str_replace('’','\'' , $text);
     $text = str_replace('Mr.','Mr' , $text);
     $text = str_replace('U.S.','US' , $text);
@@ -110,7 +111,11 @@ function generate_markov_text($length, $table) {
       if (!in_array($new_word, $punctuation)) {
         $o .= ' ';
       }
-      $o .= $new_word;
+      if ($new_word == "<br>") {
+        $o .= "<p>";
+      } else {
+        $o .= $new_word;
+      }
     } else {
       #syslog(LOG_INFO, "rand for: " . $word);
       #syslog(LOG_INFO, "--> " . print_r($table[$word], true));
