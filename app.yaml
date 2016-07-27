@@ -8,5 +8,8 @@ handlers:
 - url: /about
   script: about.php
 
+- url: /generate
+  script: generate.php
+
 - url: /.*
   script: index.php

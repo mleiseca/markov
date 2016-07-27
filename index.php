@@ -13,9 +13,9 @@ function process() {
   $order = 8;
   $length = 400;
   $texts = array();
-  $dh = opendir('./republican_transcripts');
+  $dh = opendir('./democratic_transcripts');
   while($file = readdir($dh)) {
-    array_push($texts, file_get_contents('./republican_transcripts/' . $file));
+    array_push($texts, file_get_contents('./democratic_transcripts/' . $file));
   }
   closedir($dh);
 
