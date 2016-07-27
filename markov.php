@@ -32,11 +32,8 @@ $punctuation = array('<br>', '.', ',', ':', ';', '"', "!", "?");
 
 function generate_markov_table($texts) {
   global $punctuation;
-  $table = array();
-
-#split based on word
-#do something reasonable with punctuation
-#do something better with line breaks
+  $table_forward = array();
+  $table_reverse = array();
 
   foreach($texts as $text) {
     $text = nl2br($text, false);
@@ -52,43 +49,38 @@ function generate_markov_table($texts) {
       $text = str_replace($p, " $p ", $text);
     }
     $brokenup_text = preg_split('/\s+/', $text);
-
-    $last_word = "START";
-    $previous_words = array('START', '');
-    foreach($brokenup_text as $word) {
-      #if ($last_word == "<br>" && $word == "<br>") {
-        
-      #} elseif (isset($table[$last_word][$word])) {
-      #  $table[$last_word][$word]++;
-      #} else {
-      #  $table[$last_word][$word] = 1;
-      #}
-
-      $previous_group = trim(join(' ', $previous_words)); 
-      if ($previous_group == "<br>" && $word == "<br>") {
-
-      } elseif (isset($table[$previous_group][$word])) {
-        #syslog(LOG_INFO, "Adding '$previous_group' -> '$word'");
-        $table[$previous_group][$word]++;
-      } else {
-        #syslog(LOG_INFO, "Adding '$previous_group' -> '$word'");
-        $table[$previous_group][$word] = 1;
-      }
- 
-      if(in_array($word, $punctuation)) {
-        $previous_words = array($word, '');
-      } else {
-        array_push($previous_words, $word);
-        array_shift($previous_words);
-      }
-      $last_word = $word;
-    }
-
-    $table[$last_word]["END"] = 1;
+    
+    add_text_to_table($brokenup_text, $table_forward);
+    add_text_to_table(array_reverse($brokenup_text), $table_reverse);
   }
-#$foo = print_r($table, true);
-#syslog(LOG_INFO, $foo);
-    return $table;
+  return array($table_forward, $table_reverse);
+}
+
+function add_text_to_table($text_array, &$table) {
+  global $punctuation;
+  $last_word = "START";
+  $previous_words = array('START', '');
+  foreach($text_array as $word) {
+    $previous_group = trim(join(' ', $previous_words)); 
+    if ($previous_group == "<br>" && $word == "<br>") {
+
+    } elseif (isset($table[$previous_group][$word])) {
+      #syslog(LOG_INFO, "Adding '$previous_group' -> '$word'");
+      $table[$previous_group][$word]++;
+    } else {
+      #syslog(LOG_INFO, "Adding '$previous_group' -> '$word'");
+      $table[$previous_group][$word] = 1;
+    }
+ 
+    if(in_array($word, $punctuation)) {
+      $previous_words = array($word, '');
+    } else {
+      array_push($previous_words, $word);
+      array_shift($previous_words);
+    }
+    $last_word = $word;
+  }
+  $table[$last_word]["END"] = 1;
 }
 
 function generate_markov_text($length, $table) {
@@ -97,10 +89,11 @@ function generate_markov_text($length, $table) {
   $o = "";
 
   $previous_words = array('START', '');
-  for ($i = 0; $i < $length; $i++) {
+  $wrap_it_up = false;
+  for ($i = 0; $i < $length * 10; $i++) {
     $previous_group = trim(join(' ', $previous_words));
     $new_word = return_weighted_char($table[$previous_group]);
-    #syslog(LOG_INFO, join(' ', $previous_group . "--> " .print_r($new_word,true) . " " . print_r($table[$previous_group], true));
+    #syslog(LOG_INFO, join(' ', $previous_group . "--> " .print_r($new_word,true) . " " . print_r($table[$previous_group], true)));
     #$new_word = return_weighted_char($table[$word]);
 
     if ($new_word) {
@@ -112,14 +105,17 @@ function generate_markov_text($length, $table) {
         $o .= ' ';
       }
       if ($new_word == "<br>") {
+        if ($wrap_it_up) {
+          return $o;
+        }
         $o .= "<p>";
       } else {
         $o .= $new_word;
       }
+      if ($i > $length) {
+        $wrap_it_up = true;
+      }
     } else {
-      #syslog(LOG_INFO, "rand for: " . $word);
-      #syslog(LOG_INFO, "--> " . print_r($table[$word], true));
-
       $word = array_rand($table);
     }
     if(in_array($word, $punctuation)) {
@@ -127,8 +123,7 @@ function generate_markov_text($length, $table) {
     } else {
       array_push($previous_words, $word);
       array_shift($previous_words);
-    }
- 
+    } 
   }
   return $o;
 }

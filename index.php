@@ -10,21 +10,11 @@ require 'markov.php';
 function process() {
   #$order  = $_GET['order'] ?: 8;
   #$length = $_GET['length'] ?: 600;
-  $order = 8;
-  $length = 400;
-  $texts = array();
-  $dh = opendir('./democratic_transcripts');
-  while($file = readdir($dh)) {
-    array_push($texts, file_get_contents('./democratic_transcripts/' . $file));
-  }
-  closedir($dh);
-
-  if (empty($texts)) {
-    throw new Exception("No text given");
-  }
-	
-  $markov_table = generate_markov_table($texts);
-  return generate_markov_text($length, $markov_table);
+  $length = 4; 
+  $model = $_GET['model'];
+  $contents = file_get_contents($model);
+  $models = json_decode($contents, true);
+  return generate_markov_text($length, $models[0]);
 }
 
 try {

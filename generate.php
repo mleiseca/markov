@@ -34,8 +34,7 @@ try {
                        "b" => array("democratic_transcripts", "republican_transcripts"));
   $selected_model = $_GET['model'];
   if (array_key_exists($selected_model, $model_names)) {
-    $model = json_encode(process($model_names[$selected_model]));
-    echo $model;
+    echo json_encode(process($model_names[$selected_model]));
   }
 } catch (Exception $e) {
   $error = $e->getMessage();
