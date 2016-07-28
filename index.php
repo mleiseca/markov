@@ -8,13 +8,12 @@
 require 'markov.php';
 
 function process() {
-  #$order  = $_GET['order'] ?: 8;
-  #$length = $_GET['length'] ?: 600;
-  $length = 4; 
   $model = $_GET['model'];
   $contents = file_get_contents($model);
   $models = json_decode($contents, true);
-  return generate_markov_text($length, $models[0]);
+  $text = generate_markov_text(300, $models[0]);
+  $last_sentence = generate_markov_text(10, $models[1], true);
+  return $text . "<p>" . $last_sentence;
 }
 
 try {

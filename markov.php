@@ -61,6 +61,9 @@ function add_text_to_table($text_array, &$table) {
   $last_word = "START";
   $previous_words = array('START', '');
   foreach($text_array as $word) {
+    if ($word == '') {
+      continue;
+    }
     $previous_group = trim(join(' ', $previous_words)); 
     if ($previous_group == "<br>" && $word == "<br>") {
 
@@ -83,34 +86,45 @@ function add_text_to_table($text_array, &$table) {
   $table[$last_word]["END"] = 1;
 }
 
-function generate_markov_text($length, $table) {
+function append(&$text, $additional, $reverse) {
+  if ($reverse) {
+    $text = $additional . $text;
+  } else {
+    $text = $text . $additional;
+  }
+}
+
+function generate_markov_text($length, $table, $reverse = false) {
   global $punctuation;
   $word = "START";
-  $o = "";
+  $o = '';
 
   $previous_words = array('START', '');
   $wrap_it_up = false;
   for ($i = 0; $i < $length * 10; $i++) {
     $previous_group = trim(join(' ', $previous_words));
     $new_word = return_weighted_char($table[$previous_group]);
-    #syslog(LOG_INFO, join(' ', $previous_group . "--> " .print_r($new_word,true) . " " . print_r($table[$previous_group], true)));
+    #syslog(LOG_INFO, $previous_group . "--> " .print_r($new_word,true) . " --> " . print_r($table[$previous_group], true));
     #$new_word = return_weighted_char($table[$word]);
 
     if ($new_word) {
       if ($new_word == "END") {
         return $o;
       }
+      if (!in_array($word, $punctuation) && $reverse) {
+        append($o, ' ', $reverse);
+      }
       $word = $new_word;
-      if (!in_array($new_word, $punctuation)) {
-        $o .= ' ';
+      if (!in_array($new_word, $punctuation) && !$reverse) {
+        append($o, ' ', $reverse);
       }
       if ($new_word == "<br>") {
         if ($wrap_it_up) {
           return $o;
         }
-        $o .= "<p>";
+        append($o, '<p>', $reverse);
       } else {
-        $o .= $new_word;
+        append($o, $new_word, $reverse);
       }
       if ($i > $length) {
         $wrap_it_up = true;
