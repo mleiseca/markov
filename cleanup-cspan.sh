@@ -1,0 +1,69 @@
+sed -i  \
+ -e "s/america/America/g" \
+ -e "s/independence hall/Independence Hall/g" \
+ -e "s/constitution/Constitution/g" \
+ -e "s/maryland/Maryland/g" \
+ -e "s/hillary/Hillary/g" \
+ -e "s/clinton/Clinton/g" \
+ -e "s/democrats/Democrats/g" \
+ -e "s/president obama/President Obama/g" \
+ -e "s/vice president biden/Vice President Biden/g" \
+ -e "s/americans/Americans/g" \
+ -e "s/republican/Republican/g" \
+ -e "s/the president's/the President's/g" \
+ -e "s/democratic/Democratic/g" \
+ -e "s/the liberty bell/the Liberty Bell/g" \
+ -e "s/lgbtq/LGBTQ/g" \
+ -e "s/sanders/Sanders/g" \
+ -e "s/governor o'malley/Governor O'malley/" \
+ -e "s/president of the united states of america/President of the United States of America/g" \
+ -e "s/united states of america/United States of America/g" \
+ -e "s/united states capitol/United States Capitol/g" \
+ -e "s/philadelphia/Philadelphia/g" \
+ -e "s/rodham/Rodham/g" \
+ -e "s/trump/Trump/g" \
+ -e "s/mayflower/Mayflower/g" \
+ -e "s/american/American/g" \
+ -e "s/united states congress/United States Congress/g" \
+ -e "s/new yorkers/New Yorkers/g" \
+ -e "s/first lady/First Lady/" \
+ -e "s/secretary of state/Secretary of State/g" \
+ -e "s/united states senate/United States Senate/" \
+ -e "s/september/September/" \
+ -e "s/tim kaine/Tim Kaine/" \
+ -e "s/african-american/African-American/" \
+ -e "s/north carolina/North Carolina/" \
+ -e "s/puerto rico/Puerto Rico/" \
+ -e "s/new york/New York/" \
+ -e "s/mexico/Mexico/" \
+ -e "s/latin america/Latin America/" \
+ -e "s/europe/Europe/" \
+ -e "s/africa /Africa/" \
+ -e "s/congress/Congress/" \
+ -e "s/planned parenthood/Planned Parenthood/" \
+ -e "s/elizabeth warren/Elizabeth Warren/" \
+ -e "s/asia/Asia/" \
+ -e "s/u.s./US/" \
+ -e "s/oregon/Oregon/" \
+ -e "s/white house/White House/" \
+ -e "s/california/California/" \
+ -e "s/mississippi/Mississippi/" \
+ -e "s/know nothings/Know Nothings/" \
+ -e "s/november/November/" \
+ -e "s/president barack obama/President Barack Obama/" \
+ -e "s/minnesota/Minnesota/" \
+ -e "s/trump university/Trump University/" \
+ -e "s/trump tower/Trump Tower/" \
+ -e "s/friday/Friday/" \
+ -e "s/bill clinton/Bill Clinton/" \
+ -e "s/connecticut/Connecticut/" \
+ -e "s/rhode island/Rhode Island/" \
+ -e "s/montana/Montana/" \
+ -e "s/muslim/Muslim/" \
+ -e "s/mexican/Mexican/" \
+ -e "s/mike pence/Mike Pence/" \
+ -e "s/indiana/Indiana/" \
+ -e "s/god/God/" \
+ -e "s/bernie/Bernie/" \
+ -e "s/white house/White House/" \
+ -e "s/new hampshire/New Hampshire/"
