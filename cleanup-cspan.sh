@@ -34,6 +34,7 @@ s/democratic/Democratic/g
 s/republican/Republican/g
 s/mike pence/Mike Pence/g
 s/california/California/g
+s/united states/United States/g
 s/first lady/First Lady/g
 s/mayflower/Mayflower/g
 s/americans/Americans/g
@@ -48,6 +49,7 @@ s/american/American/g
 s/maryland/Maryland/g
 s/november/November/g
 s/congress/Congress/g
+s/harry reid/Harry Reid/g
 s/new york/New York/g
 s/sanders/Sanders/g
 s/clinton/Clinton/g
@@ -65,9 +67,12 @@ s/friday/Friday/g
 s/oregon/Oregon/g
 s/europe/Europe/g
 s/mexico/Mexico/g
+s/pence/Pence/g
 s/trump/Trump/g
 s/lgbtq/LGBTQ/g
 s/obama/Obama/g
 s/asia/Asia/g
 s/god/God/g
 s/ i / I /g
+s/i'm/I'm/g
+s/--/—/g
