@@ -43,6 +43,15 @@ h1, h1 a {
 a { color: #33f; }
 a:hover { color: #f33; }
 
+div.homepage-nav:hover {
+  border: 2px solid black;
+}
+
+.homepage-nav {
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+
 .bottom-tools {
   display: flex;
   align-items: center;
@@ -56,6 +65,19 @@ a:hover { color: #f33; }
 }
 
 #generate-new-speech {
+  color: white;
+  background-color: #C53335;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1.125rem;
+  padding-top: 1rem;
+  padding-bottom: 1.0625rem;
+  padding-right: 3rem;
+  padding-left: 3rem;
+  text-decoration: none;
+}
+
+.homepage-button {
   color: white;
   background-color: #C53335;
   display: inline-block;

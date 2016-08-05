@@ -8,8 +8,17 @@ handlers:
 - url: /about
   script: about.php
 
+- url: /dnc
+  script: dnc.php
+
+- url: /rnc
+  script: rnc.php
+
+- url: /undecided
+  script: undecided.php
+
 - url: /generate
   script: generate.php
 
-- url: /.*
-  script: index.php
+- url: /
+  script: index.html

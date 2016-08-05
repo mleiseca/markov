@@ -8,8 +8,7 @@
 require 'markov.php';
 
 function process() {
-  $model = $_GET['model'];
-  $contents = file_get_contents($model);
+  $contents = file_get_contents("model-republican.json");
   $models = json_decode($contents, true);
   $text = generate_markov_text(300, $models[0]);
   $last_sentence = generate_markov_text(10, $models[1], true);
