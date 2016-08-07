@@ -7,31 +7,26 @@
 
 require 'markov.php';
 
-function process() {
-  $model = $_SERVER['MODEL'];
+try {
   $contents = file_get_contents($model);
   $models = json_decode($contents, true);
-  $text = generate_markov_text(300, $models[0]);
+  $text = generate_markov_text(200, $models[0]);
   $last_sentence = generate_markov_text(10, $models[1], true);
-  return $text . "<p>" . $last_sentence;
-}
-
-try {
-    $markov = process();
+  $markov = $text . "<p>" . $last_sentence;
 } catch (Exception $e) {
-    $error = $e->getMessage();
+  $error = $e->getMessage();
 }
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Republican Convention 2016 Speech Generator</title>
+    <title>$<?php echo $party ?> Convention 2016 Speech Generator</title>
     <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
 <div id="wrapper">
-    <h1>Republican Convention 2016 Speech Generator </h1>
+    <h1><?php echo $party ?> Convention 2016 Speech Generator </h1>
     <?php if ($error): ?>
         <p class="error"><strong><?= $error; ?></strong></p>
     <?php endif; ?>
@@ -42,12 +37,13 @@ try {
      ?>
     <div class="bottom-tools">
       <div class="tool-item">
-        <a id="generate-new-speech" href="/" class="generate-button">Generate New Speech</a>
+        <a id="generate-new-speech" href="" class="generate-button">Generate New Speech</a>
       </div>
     </div>
     </div>
     <div id="footer">
-      <a href="/about">About The Republican Convention 2016 Speech Generator</a>
+      <a href="/">Switch Teams</a> &nbsp; | &nbsp; 
+      <a href="/about">About The Convention 2016 Speech Generator</a>
     </div>
 </div> <!-- /wrapper -->
 </body>
