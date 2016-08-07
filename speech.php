@@ -44,7 +44,7 @@ try {
     </div>
     </div>
     <div id="footer">
-      <a href="/">Switch Teams</a> &nbsp; | &nbsp; 
+      <a href="/">Switch Parties</a> &nbsp; | &nbsp; 
       <a href="/about">About The Convention 2016 Speech Generator</a>
     </div>
 </div> <!-- /wrapper -->
