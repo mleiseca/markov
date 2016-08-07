@@ -30,7 +30,9 @@ try {
     <?php if ($error): ?>
         <p class="error"><strong><?= $error; ?></strong></p>
     <?php endif; ?>
-
+    <div id="header">
+      <?php echo $header_text; ?>
+    </div>
        <div id="speech"> 
     <?php 
       echo($markov);

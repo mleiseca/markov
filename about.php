@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>About Republican Convention 2016 Speech Generator</title>
+    <title>About Convention 2016 Speech Generator</title>
     <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
 <div id="wrapper">
-    <h1>About The Republican Convention 2016 Speech Generator </h1>
+    <h1>About The Convention 2016 Speech Generator </h1>
 
     <div id="speech"> 
       <h2>Inspiration</h2>
@@ -18,7 +18,7 @@ that a lot of the speakers were covering the same points using very similar lang
          <a href="https://github.com/mleiseca/markov">https://github.com/mleiseca/markov</a>. My work started as a fork from a project by Hay Kranen "<a href="http://www.haykranen.nl/projects/markov">Markov</a>". His original source is <a href="http://github.com/hay/markov">here</a>
     </div>
     <div id="footer">
-      <a href="/">The Republican Convention 2016 Speech Generator</a>
+      <a href="/">The Convention 2016 Speech Generator</a>
     </div>
 </div> <!-- /wrapper -->
 </body>
